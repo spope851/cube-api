@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "cube-api"
+name = "cube-solver"
 version = "0.1.0"
