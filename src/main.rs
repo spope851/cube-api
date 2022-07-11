@@ -1,214 +1,12 @@
 use std::env;
-mod solveEdge;
-use solveEdge::solve_edge;
+mod solve_edge;
+use solve_edge::solve_edge;
+use solve_edge::cube::Cube;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    struct Cube {
-        top_tl: i32,
-        top_tm: i32,
-        top_tr: i32,
-        top_ml: i32,
-        top_mm: i32,
-        top_mr: i32,
-        top_bl: i32,
-        top_bm: i32,
-        top_br: i32,
-        lef_tl: i32,
-        lef_tm: i32,
-        lef_tr: i32,
-        lef_ml: i32,
-        lef_mm: i32,
-        lef_mr: i32,
-        lef_bl: i32,
-        lef_bm: i32,
-        lef_br: i32,
-        fro_tl: i32,
-        fro_tm: i32,
-        fro_tr: i32,
-        fro_ml: i32,
-        fro_mm: i32,
-        fro_mr: i32,
-        fro_bl: i32,
-        fro_bm: i32,
-        fro_br: i32,
-        rig_tl: i32,
-        rig_tm: i32,
-        rig_tr: i32,
-        rig_ml: i32,
-        rig_mm: i32,
-        rig_mr: i32,
-        rig_bl: i32,
-        rig_bm: i32,
-        rig_br: i32,
-        bac_tl: i32,
-        bac_tm: i32,
-        bac_tr: i32,
-        bac_ml: i32,
-        bac_mm: i32,
-        bac_mr: i32,
-        bac_bl: i32,
-        bac_bm: i32,
-        bac_br: i32,
-        bot_tl: i32,
-        bot_tm: i32,
-        bot_tr: i32,
-        bot_ml: i32,
-        bot_mm: i32,
-        bot_mr: i32,
-        bot_bl: i32,
-        bot_bm: i32,
-        bot_br: i32,
-    }
 
-    impl Cube {
-        pub fn r(&mut self) {
-            let rig_tm = self.rig_tm.clone();
-            self.rig_tm = self.rig_ml.clone();
-            self.rig_ml = self.rig_bm.clone();
-            self.rig_bm = self.rig_mr.clone();
-            self.rig_mr = rig_tm;
-            let top_mr = self.top_mr.clone();
-            self.top_mr = self.fro_mr.clone();
-            self.fro_mr = self.bot_mr.clone();
-            self.bot_mr = self.bac_ml.clone();
-            self.bac_ml = top_mr;
-        }
-        pub fn rz(&mut self) {
-            let rig_tm = self.rig_tm.clone();
-            self.rig_tm = self.rig_mr.clone();
-            self.rig_mr = self.rig_bm.clone();
-            self.rig_bm = self.rig_ml.clone();
-            self.rig_ml = rig_tm;
-            let top_mr = self.top_mr.clone();
-            self.top_mr = self.bac_ml.clone();
-            self.bac_ml = self.bot_mr.clone();
-            self.bot_mr = self.fro_mr.clone();
-            self.fro_mr = top_mr;
-        } 
-        pub fn l(&mut self) {
-            let lef_tm = self.lef_tm.clone();
-            self.lef_tm = self.lef_ml.clone();
-            self.lef_ml = self.lef_bm.clone();
-            self.lef_bm = self.lef_mr.clone();
-            self.lef_mr = lef_tm;
-            let top_ml = self.top_ml.clone();
-            self.top_ml = self.bac_mr.clone();
-            self.bac_mr = self.bot_ml.clone();
-            self.bot_ml = self.fro_ml.clone();
-            self.fro_ml = top_ml;
-        }
-        pub fn lz(&mut self) {
-            let lef_tm = self.lef_tm.clone();
-            self.lef_tm = self.lef_mr.clone();
-            self.lef_mr = self.lef_bm.clone();
-            self.lef_bm = self.lef_ml.clone();
-            self.lef_ml = lef_tm;
-            let top_ml = self.top_ml.clone();
-            self.top_ml = self.fro_ml.clone();
-            self.fro_ml = self.bot_ml.clone();
-            self.bot_ml = self.bac_mr.clone();
-            self.bac_mr = top_ml;
-        }
-        pub fn f(&mut self) {
-            let fro_tm = self.fro_tm.clone();
-            self.fro_tm = self.fro_ml.clone();
-            self.fro_ml = self.fro_bm.clone();
-            self.fro_bm = self.fro_mr.clone();
-            self.fro_mr = fro_tm;
-            let top_bm = self.top_bm.clone();
-            self.top_bm = self.lef_mr.clone();
-            self.lef_mr = self.bot_tm.clone();
-            self.bot_tm = self.rig_ml.clone();
-            self.rig_ml = top_bm;
-        }
-        pub fn fz(&mut self) {
-            let fro_tm = self.fro_tm.clone();
-            self.fro_tm = self.fro_mr.clone();
-            self.fro_mr = self.fro_bm.clone();
-            self.fro_bm = self.fro_ml.clone();
-            self.fro_ml = fro_tm;
-            let top_bm = self.top_bm.clone();
-            self.top_bm = self.rig_ml.clone();
-            self.rig_ml = self.bot_tm.clone();
-            self.bot_tm = self.lef_mr.clone();
-            self.lef_mr = top_bm;
-        }
-        pub fn t(&mut self) {
-            let top_tm = self.top_tm.clone();
-            self.top_tm = self.top_ml.clone();
-            self.top_ml = self.top_bm.clone();
-            self.top_bm = self.top_mr.clone();
-            self.top_mr = top_tm;
-            let bac_tm = self.bac_tm.clone();
-            self.bac_tm = self.lef_tm.clone();
-            self.lef_tm = self.fro_tm.clone();
-            self.fro_tm = self.rig_ml.clone();
-            self.rig_ml = bac_tm;
-        }
-        pub fn tz(&mut self) {
-            let top_tm = self.top_tm.clone();
-            self.top_tm = self.top_mr.clone();
-            self.top_mr = self.top_bm.clone();
-            self.top_bm = self.top_ml.clone();
-            self.top_ml = top_tm;
-            let bac_tm = self.bac_tm.clone();
-            self.bac_tm = self.rig_tm.clone();
-            self.rig_ml = self.fro_tm.clone();
-            self.fro_tm = self.lef_tm.clone();
-            self.lef_tm = bac_tm;
-        }
-        pub fn b(&mut self) {
-            let bac_tm = self.bac_tm.clone();
-            self.bac_tm = self.bac_ml.clone();
-            self.bac_ml = self.bac_bm.clone();
-            self.bac_bm = self.bac_mr.clone();
-            self.bac_mr = bac_tm;
-            let top_tm = self.top_tm.clone();
-            self.top_tm = self.rig_mr.clone();
-            self.rig_mr = self.bot_bm.clone();
-            self.bot_bm = self.lef_ml.clone();
-            self.lef_ml = top_tm;
-        }
-        pub fn bz(&mut self) {
-            let bac_tm = self.bac_tm.clone();
-            self.bac_tm = self.bac_mr.clone();
-            self.bac_mr = self.bac_bm.clone();
-            self.bac_bm = self.bac_ml.clone();
-            self.bac_ml = bac_tm;
-            let top_tm = self.top_tm.clone();
-            self.top_tm = self.lef_ml.clone();
-            self.lef_ml = self.bot_bm.clone();
-            self.bot_bm = self.rig_mr.clone();
-            self.rig_mr = top_tm;
-        }
-        pub fn m(&mut self) {
-            let bot_tm = self.bot_tm.clone();
-            self.bot_tm = self.bot_ml.clone();
-            self.bot_ml = self.bot_bm.clone();
-            self.bot_bm = self.bot_mr.clone();
-            self.bot_mr = bot_tm;
-            let fro_bm = self.fro_bm.clone();
-            self.fro_bm = self.lef_bm.clone();
-            self.lef_bm = self.bac_bm.clone();
-            self.bac_bm = self.rig_bm.clone();
-            self.rig_bm = fro_bm;
-        }
-        pub fn mz(&mut self) {
-            let bot_tm = self.bot_tm.clone();
-            self.bot_tm = self.bot_mr.clone();
-            self.bot_mr = self.bot_bm.clone();
-            self.bot_bm = self.bot_ml.clone();
-            self.bot_ml = bot_tm;
-            let fro_bm = self.fro_bm.clone();
-            self.rig_bm = self.rig_bm.clone();
-            self.rig_bm = self.bac_bm.clone();
-            self.bac_bm = self.lef_bm.clone();
-            self.lef_bm = fro_bm;
-        }
-    }
-
-    let mut cube = Cube {
+    let cube = Cube {
         top_tl: args[1].split(':').nth(1).unwrap().parse().unwrap(),
         top_tm: args[2].split(':').nth(1).unwrap().parse().unwrap(),
         top_tr: args[3].split(':').nth(1).unwrap().parse().unwrap(),
@@ -267,25 +65,25 @@ fn main() {
 
     // cube.b();
 
-    #[derive(PartialEq)]
+    #[derive(PartialEq)]#[derive(Copy, Clone)]
     struct TopFro {
         top: i32,
         fro: i32,
     }
 
-    #[derive(PartialEq)]
+    #[derive(PartialEq)]#[derive(Copy, Clone)]
     struct TopLef {
         top: i32,
         lef: i32,
     }
 
-    #[derive(PartialEq)]
+    #[derive(PartialEq)]#[derive(Copy, Clone)]
     struct TopBac {
         top: i32,
         bac: i32,
     }
 
-    #[derive(PartialEq)]
+    #[derive(PartialEq)]#[derive(Copy, Clone)]
     struct TopRig {
         top: i32,
         rig: i32,
@@ -546,6 +344,21 @@ fn main() {
         rig: solved_edges.top_rig,
     };
 
+    let solved_edge_colors: [[i32; 2]; 12] = [
+        [solved_edges.top_fro.top, solved_edges.top_fro.fro],
+        [solved_edges.top_lef.top, solved_edges.top_lef.lef],
+        [solved_edges.top_bac.top, solved_edges.top_bac.bac],
+        [solved_edges.top_rig.top, solved_edges.top_rig.rig],
+        [solved_edges.mid_fro_lef.fro, solved_edges.mid_fro_lef.lef],
+        [solved_edges.mid_bac_lef.bac, solved_edges.mid_bac_lef.lef],
+        [solved_edges.mid_bac_rig.bac, solved_edges.mid_bac_rig.rig],
+        [solved_edges.mid_fro_rig.fro, solved_edges.mid_fro_rig.rig],
+        [solved_edges.bot_fro.bot, solved_edges.bot_fro.fro],
+        [solved_edges.bot_lef.bot, solved_edges.bot_lef.lef],
+        [solved_edges.bot_bac.bot, solved_edges.bot_bac.bac],
+        [solved_edges.bot_rig.bot, solved_edges.bot_rig.rig],
+    ];
+
     let solve_white_cross = || {
 
         println!("fro top: {:?}", top_cross.fro.top);
@@ -573,8 +386,9 @@ fn main() {
             edge_colors.bot_rig
         ].iter().enumerate() {
             // write some logic that considers each position of a white piece and puts it in place according to that position. find commonalities
-            if el.contains(&1) {
-                solve_edge(i, el);
+            if el.contains(&1) && el[0] != solved_edge_colors[i][0] && el[1] != solved_edge_colors[i][1] {
+                solve_edge(i, el, cube);
+                break;
             }
         }
         if top_cross == solved_cross { print!("solved"); } else { print!("not solved") }
